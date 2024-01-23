@@ -1,27 +1,22 @@
 # keepalive
 
-A simple container to ping the VPN server to ensure the WireGuard VPN keepalive 
+Script to restart the WireGuard VPN client to ensure the WireGuard VPN keepalive 
 if the public IP of the client always change.
 
 ## Usage
 
-For docker:
 ```sh
-DESTINATION="172.16.0.1" ./start.sh
-```
+# Modify the *DESTINATION* IP and *INTERFACE* name
+vim wireguard_auto_reconnect.sh
+# Install wireguard_auto_reconnect.sh script
+cp wireguard_auto_reconnect.sh /usr/local/bin
+# Install wireguard-keepalive.service
+cp wireguard-keepalive.service /etc/systemd/system/
 
-For Kuebrnetes:
-```sh
-# Create the 'keepalive' namespace
-kubectl create namespace keepalive
-
-# Modify the destination IP in keepalive.yaml
-vim keepalive.yaml
-
-# Apply the keepalive daemonset
-kubectl apply -f keepalive.yaml
+systemctl daemon-reload
+systemctl enable --now wireguard-keepalive.service
 ```
 
 ## License
- 
+
 MIT
