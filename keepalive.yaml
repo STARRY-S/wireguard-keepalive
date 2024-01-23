@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: keepalive-wireguard
+  namespace: keepalive
+  labels:
+    k8s-app: keepalive-wireguard
+spec:
+  selector:
+    matchLabels:
+      name: keepalive-wireguard
+  template:
+    metadata:
+      labels:
+        name: keepalive-wireguard
+    spec:
+      containers:
+      - name: keepalive
+        image: hxstarrys/keepalive:latest
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          - name: DESTINATION
+            # TODO: Modify the destination IP here.
+            value: "172.16.0.1"
